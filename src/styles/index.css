@@ -1,0 +1,87 @@
+@import "tailwindcss";
+@import "./tokens.css";
+
+@theme {
+  --color-noir-bg: var(--noir-bg);
+  --color-noir-bg-subtle: var(--noir-bg-subtle);
+  --color-noir-surface: var(--noir-surface);
+  --color-noir-surface-elevated: var(--noir-surface-elevated);
+  --color-noir-surface-card: var(--noir-surface-card);
+  --color-noir-surface-dialogue: var(--noir-surface-dialogue);
+  --color-noir-surface-danger: var(--noir-surface-danger);
+
+  --color-noir-border: var(--noir-border);
+  --color-noir-border-subtle: var(--noir-border-subtle);
+  --color-noir-border-amber: var(--noir-border-amber);
+  --color-noir-border-uv: var(--noir-border-uv);
+  --color-noir-border-crimson: var(--noir-border-crimson);
+
+  --color-noir-text-high: var(--noir-text-high);
+  --color-noir-text-mid: var(--noir-text-mid);
+  --color-noir-text-low: var(--noir-text-low);
+  --color-noir-text-dim: var(--noir-text-dim);
+
+  --color-noir-amber: var(--light-filament);
+  --color-noir-amber-dark: var(--light-filament-dark);
+  --color-noir-uv: var(--light-uv);
+  --color-noir-uv-dark: var(--light-uv-dark);
+  --color-noir-crimson: var(--evidence-blood);
+  --color-noir-crimson-dark: var(--evidence-blood-dark);
+
+  --font-serif-noir: var(--font-serif-noir);
+  --font-story: var(--font-story);
+  --font-body: var(--font-body);
+}
+
+/* Hallmark Floor 4: overflow-x: clip on html and body. Never hidden, never 100vw */
+html, body {
+  overflow-x: clip;
+  background-color: var(--noir-bg);
+  color: var(--noir-text-high);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.6;
+  margin: 0;
+  padding: 0;
+  min-height: 100vh;
+}
+
+/* Custom utility classes */
+.font-noir {
+  font-family: var(--font-serif-noir);
+}
+
+.font-story {
+  font-family: var(--font-story);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-forensic {
+  font-family: var(--font-mono-forensic);
+}
+
+/* Crosshair for detective inspection */
+.cursor-crosshair-noir {
+  cursor: crosshair;
+}
+
+/* Smooth vignette effect */
+.vignette-overlay {
+  background: radial-gradient(circle at center, transparent 30%, var(--noir-vignette) 100%);
+  pointer-events: none;
+}
+
+/* Film grain effect */
+.film-grain {
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.035'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+/* Focus visible styles for accessibility */
+:focus-visible {
+  outline: 2px solid var(--light-filament);
+  outline-offset: 2px;
+}

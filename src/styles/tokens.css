@@ -1,0 +1,65 @@
+/* Hallmark · v2.0.0 · tokens.css
+   Genre: atmospheric
+   Theme: noir-investigation
+   Anchor: #d97706 (amber incandescent) / #6366f1 (forensic UV)
+*/
+
+:root {
+  /* Surface and Background Tones */
+  --noir-bg: #07080c;
+  --noir-bg-subtle: #0d0f17;
+  --noir-surface: #121622;
+  --noir-surface-elevated: #181e2e;
+  --noir-surface-card: #141926;
+  --noir-surface-dialogue: #111520;
+  --noir-surface-danger: #231215;
+
+  /* Borders & Separation */
+  --noir-border: #222b3e;
+  --noir-border-subtle: #19202f;
+  --noir-border-amber: rgba(217, 119, 6, 0.45);
+  --noir-border-uv: rgba(99, 102, 241, 0.45);
+  --noir-border-crimson: rgba(220, 38, 38, 0.5);
+
+  /* Typography Text Colors (High contrast, zero raw hex in markup) */
+  --noir-text-high: #f6f8fc;
+  --noir-text-mid: #cbd5e1;
+  --noir-text-low: #8b99ad;
+  --noir-text-dim: #475569;
+
+  /* Atmospheric Light Tokens */
+  --light-filament: #f59e0b;
+  --light-filament-glow: rgba(245, 158, 11, 0.25);
+  --light-filament-dark: #b45309;
+  
+  --light-uv: #818cf8;
+  --light-uv-glow: rgba(129, 140, 248, 0.35);
+  --light-uv-dark: #4338ca;
+
+  --evidence-blood: #dc2626;
+  --evidence-blood-dark: #7f1d1d;
+  --evidence-amber: #d97706;
+
+  --paper-parchment: #f6f3eb;
+  --paper-ink: #141721;
+  --noir-vignette: rgba(5, 6, 9, 0.95);
+
+  /* Non-AI Typography Families - Exactly 3 families */
+  --font-serif-noir: 'DM Serif Display', Georgia, serif;
+  --font-story: 'Special Elite', 'Courier Prime', monospace;
+  --font-body: 'Plus Jakarta Sans', system-ui, sans-serif;
+
+  /* Radius Scale */
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+}
+
+/* Reduced motion fallbacks */
+@media (prefers-reduced-motion: reduce) {
+  * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
