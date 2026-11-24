@@ -8,12 +8,12 @@ import {
   FileText,
   Gavel,
   RotateCcw,
-  Power,
+  AlertTriangle,
 } from 'lucide-react';
 
 export const GameHeader: React.FC = () => {
   const [state, actions] = useGameStore();
-  const { currentCase, lightMode, roomPower, powerCountdown, filamentHealth, soundMuted, discoveredClueIds } = state;
+  const { currentCase, lightMode, roomPower, filamentHealth, soundMuted, discoveredClueIds } = state;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-3.5 bg-noir-surface/95 border-b border-noir-border text-noir-text-cream select-none shadow-md">
@@ -33,25 +33,20 @@ export const GameHeader: React.FC = () => {
         </div>
       </div>
 
-      {/* Center: Dynamic Room Power & Flashlight Controls */}
+      {/* Center: Autonomous Estate Power State & Flashlight Controls */}
       <div className="flex items-center gap-3">
-        {/* Dynamic Estate Power State Badge & Breaker Switch [L] */}
-        <button
-          onClick={actions.toggleRoomPower}
-          title="Toggle Estate Power / Flashlight Blackout (Key: L)"
-          className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-body transition-colors border cursor-pointer ${
-            roomPower === 'room_power_on'
-              ? 'bg-noir-surface-card border-noir-amber text-noir-amber'
-              : 'bg-noir-surface-danger border-noir-crimson text-noir-crimson animate-pulse'
-          }`}
-        >
-          <Power className="w-3.5 h-3.5" />
-          <span className="font-semibold">
-            {roomPower === 'room_power_on'
-              ? `Room Lights ON (${powerCountdown}s) [L]`
-              : `Storm Blackout: Flashlight (${powerCountdown}s) [L]`}
-          </span>
-        </button>
+        {/* Estate Power State Badge */}
+        {roomPower === 'room_power_on' ? (
+          <div className="hidden sm:flex items-center gap-2 px-3 py-1.5 rounded text-xs font-body border border-noir-border bg-noir-surface-card text-noir-text-mid">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Estate Power: Online</span>
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-body border border-noir-border-crimson bg-noir-surface-danger text-noir-crimson animate-pulse">
+            <AlertTriangle className="w-3.5 h-3.5 text-noir-crimson" />
+            <span className="font-semibold">Breaker Tripped: Torch Active</span>
+          </div>
+        )}
 
         {/* Filament / Light Health Bar (Active during blackout) */}
         {roomPower === 'blackout_flashlight' && (

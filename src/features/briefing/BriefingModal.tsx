@@ -2,7 +2,7 @@ import React from 'react';
 import { useGameStore } from '../../stores/useGameStore';
 import { soundscape } from '../audio/soundscape';
 import { CharacterPortrait } from '../characters/CharacterPortraits';
-import { ArrowRight, Lightbulb, Zap, BookOpen, ShieldAlert, Power } from 'lucide-react';
+import { ArrowRight, Lightbulb, Zap, BookOpen, ShieldAlert } from 'lucide-react';
 
 export const BriefingModal: React.FC = () => {
   const [state, actions] = useGameStore();
@@ -52,14 +52,14 @@ export const BriefingModal: React.FC = () => {
             </h3>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 text-sm font-body">
-              {/* Card 1: Flashlight */}
+              {/* Card 1: Torch / Flashlight */}
               <div className="p-3.5 rounded-md bg-noir-surface-elevated border border-noir-border space-y-1.5">
                 <div className="flex items-center gap-2 text-noir-amber font-semibold text-sm">
                   <Lightbulb className="w-4 h-4 text-noir-amber" />
-                  <span>The Flashlight</span>
+                  <span>The Torch</span>
                 </div>
                 <p className="text-xs text-noir-text-mid leading-relaxed">
-                  The room is pitch black when power trips. Your cursor guides the beam. Tap <kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-amber font-mono text-xs font-bold">SPACE</kbd> if the filament flickers out.
+                  Your cursor guides the beam. Tap <kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-amber font-mono text-xs font-bold">SPACE</kbd> if the filament flickers out in the dark.
                 </p>
               </div>
 
@@ -74,25 +74,25 @@ export const BriefingModal: React.FC = () => {
                 </p>
               </div>
 
-              {/* Card 3: Dynamic Room Lights & Blackouts */}
+              {/* Card 3: Detective Dossier */}
               <div className="p-3.5 rounded-md bg-noir-surface-elevated border border-noir-border space-y-1.5">
-                <div className="flex items-center gap-2 text-noir-cream-gold font-semibold text-sm">
-                  <Power className="w-4 h-4 text-noir-cream-gold" />
-                  <span>Dynamic Estate Power</span>
+                <div className="flex items-center gap-2 text-noir-text-cream font-semibold text-sm">
+                  <BookOpen className="w-4 h-4 text-noir-amber" />
+                  <span>Detective Dossier</span>
                 </div>
                 <p className="text-xs text-noir-text-mid leading-relaxed">
-                  Room lights stay on for your initial search. Random storm surges will trip the breaker and switch you to flashlight darkness! Press <kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-cream-gold font-mono text-xs font-bold">L</kbd> to reset breaker.
+                  Press <kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-text-cream font-mono text-xs font-bold">N</kbd> to inspect gathered evidence, autopsy notes, and suspect alibis.
                 </p>
               </div>
 
-              {/* Card 4: Dossier & Indictment */}
+              {/* Card 4: Formal Indictment */}
               <div className="p-3.5 rounded-md bg-noir-surface-elevated border border-noir-border space-y-1.5">
                 <div className="flex items-center gap-2 text-noir-crimson font-semibold text-sm">
                   <ShieldAlert className="w-4 h-4 text-noir-crimson" />
-                  <span>Dossier & Indictment</span>
+                  <span>Present Indictment</span>
                 </div>
                 <p className="text-xs text-noir-text-mid leading-relaxed">
-                  Press <kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-text-cream font-mono text-xs font-bold">N</kbd> for suspect alibis. Press <kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-crimson font-mono text-xs font-bold">A</kbd> to present the killer, weapon, and broken alibi.
+                  Press <kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-crimson font-mono text-xs font-bold">A</kbd> when ready to charge the killer with the weapon and proof disproving their alibi.
                 </p>
               </div>
             </div>
@@ -112,7 +112,7 @@ export const BriefingModal: React.FC = () => {
             className="flex items-center gap-2.5 px-7 py-3 rounded-md bg-noir-amber hover:bg-noir-amber-dark text-noir-bg font-noir font-bold text-base tracking-wide transition-colors shadow-lg cursor-pointer"
           >
             <span>Begin Investigation</span>
-            <ArrowRight className="w-5 h-5" />
+            <ArrowRight className="w-4 h-4" />
           </button>
         </div>
       </div>

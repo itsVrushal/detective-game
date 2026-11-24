@@ -70,7 +70,7 @@ export const FlashlightCanvas: React.FC = () => {
     };
   }, []);
 
-  // Keyboard shortcut listener: Space to shake filament, F for UV mode, L for Room Power toggle
+  // Keyboard shortcut listener: Space to shake filament, F for UV mode
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
@@ -81,8 +81,6 @@ export const FlashlightCanvas: React.FC = () => {
         actions.tapFilament();
       } else if (e.code === 'KeyF') {
         actions.toggleLightMode();
-      } else if (e.code === 'KeyL') {
-        actions.toggleRoomPower();
       } else if (e.code === 'KeyN') {
         actions.openDossier();
       } else if (e.code === 'KeyA') {

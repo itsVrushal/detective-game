@@ -9,7 +9,8 @@ export interface GameState {
   inspectedHotspotIds: string[];
   lightMode: LightMode;
   roomPower: RoomPowerMode; // 'room_power_on' | 'blackout_flashlight'
-  powerCountdown: number; // Seconds until next power state switch
+  powerCountdown: number; // Seconds until next random power change
+  breakerAlert: boolean; // True when circuit breaker just tripped
   filamentHealth: number; // 0 to 100
   isFlickering: boolean;
   isBlackout: boolean;
@@ -28,8 +29,9 @@ let globalState: GameState = {
   discoveredClueIds: [],
   inspectedHotspotIds: [],
   lightMode: 'tungsten',
-  roomPower: 'room_power_on', // Starts with chandelier/room lights ON
-  powerCountdown: 20,
+  roomPower: 'room_power_on', // Starts with room lights ON
+  powerCountdown: 28, // Initial lights-on search window
+  breakerAlert: false,
   filamentHealth: 100,
   isFlickering: false,
   isBlackout: false,
@@ -55,7 +57,7 @@ export function setGameState(updater: Partial<GameState> | ((prev: GameState) =>
   notify();
 }
 
-// Global timer that cycles between Room Lights ON and Flashlight Blackout
+// Autonomous timer that randomly trips and restores the circuit breaker
 let powerIntervalId: number | null = null;
 
 function ensurePowerCycleTimer() {
@@ -71,23 +73,25 @@ function ensurePowerCycleTimer() {
         return { powerCountdown: nextCount };
       }
 
-      // Time to switch power state!
+      // Randomly trip or restore circuit breaker on its own
       if (prev.roomPower === 'room_power_on') {
-        // Lights cut out! Breaker trips!
+        // Breaker trips unexpectedly!
         soundscape.playPowerTrip();
-        const blackoutDuration = 18 + Math.floor(Math.random() * 15); // 18-33s
+        const blackoutDuration = 18 + Math.floor(Math.random() * 16); // 18-34s in dark
         return {
           roomPower: 'blackout_flashlight',
           powerCountdown: blackoutDuration,
+          breakerAlert: true,
           isFlickering: true,
         };
       } else {
-        // Power restored! Generator hums back
+        // Someone downstairs resets the fusebox! Lights turn back on!
         soundscape.playPowerRestore();
-        const lightOnDuration = 15 + Math.floor(Math.random() * 15); // 15-30s
+        const lightOnDuration = 25 + Math.floor(Math.random() * 25); // 25-50s light on
         return {
           roomPower: 'room_power_on',
           powerCountdown: lightOnDuration,
+          breakerAlert: false,
           isFlickering: false,
           filamentHealth: 100,
         };
@@ -115,19 +119,8 @@ export function useGameStore(): [GameState, typeof gameActions] {
 }
 
 export const gameActions = {
-  toggleRoomPower: () => {
-    const nextPower: RoomPowerMode =
-      globalState.roomPower === 'room_power_on' ? 'blackout_flashlight' : 'room_power_on';
-    if (nextPower === 'blackout_flashlight') {
-      soundscape.playPowerTrip();
-    } else {
-      soundscape.playPowerRestore();
-    }
-    setGameState({
-      roomPower: nextPower,
-      powerCountdown: nextPower === 'room_power_on' ? 20 : 25,
-      isFlickering: nextPower === 'blackout_flashlight',
-    });
+  dismissBreakerAlert: () => {
+    setGameState({ breakerAlert: false });
   },
 
   toggleLightMode: () => {
@@ -251,7 +244,8 @@ export const gameActions = {
       inspectedHotspotIds: [],
       lightMode: 'tungsten',
       roomPower: 'room_power_on',
-      powerCountdown: 20,
+      powerCountdown: 28,
+      breakerAlert: false,
       filamentHealth: 100,
       isFlickering: false,
       isBlackout: false,

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useGameStore } from '../../stores/useGameStore';
 import { CharacterPortrait } from './CharacterPortraits';
-import { ChevronDown, ChevronUp, Lightbulb, Zap, Power } from 'lucide-react';
+import { ChevronDown, ChevronUp, Lightbulb, Zap } from 'lucide-react';
 
 export const StoryCompanionBox: React.FC = () => {
   const [state] = useGameStore();
@@ -18,11 +18,11 @@ export const StoryCompanionBox: React.FC = () => {
       if (lightMode === 'uv') {
         return "“Blacklight’s cutting through the blackout. Look for chemical stains and wiped fingerprints glowing on the surfaces.”";
       }
-      return "“The breaker tripped! Complete blackout. Keep that flashlight beam moving over the desk and safe. Tap [SPACE] if the filament starts to die.”";
+      return "“Circuit breaker tripped! The groundskeeper is trying to reset the fusebox downstairs. Keep your torch up!”";
     }
 
     if (clueCount === 0) {
-      return "“Chandelier’s holding for now. Take a hard look at the room layout while we have light. The storm’s rattling the estate wires—breaker’s bound to blow.”";
+      return "“Chandelier’s holding for now. Take a hard look at the room layout while we have light. The storm’s rattling the estate wires—breaker could trip at any moment.”";
     }
 
     if (clueCount >= 1 && clueCount < 4) {
@@ -73,18 +73,14 @@ export const StoryCompanionBox: React.FC = () => {
                 {getDialogue()}
               </p>
 
-              <div className="flex items-center gap-3 pt-1 text-xs text-noir-text-low font-body">
-                <span className="flex items-center gap-1 text-noir-cream-gold">
-                  <Power className="w-3.5 h-3.5" />
-                  [L] Power Breaker
-                </span>
+              <div className="flex items-center gap-4 pt-1 text-xs text-noir-text-low font-body">
                 <span className="flex items-center gap-1 text-noir-amber">
                   <Lightbulb className="w-3.5 h-3.5" />
-                  [SPACE] Tap
+                  [SPACE] Tap Torch
                 </span>
                 <span className="flex items-center gap-1 text-noir-uv">
                   <Zap className="w-3.5 h-3.5" />
-                  [F] UV Light
+                  [F] UV Blacklight
                 </span>
               </div>
             </div>
