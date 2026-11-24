@@ -76,10 +76,22 @@ export const CrimeSceneView: React.FC = () => {
             <stop offset="0%" stopColor="#d97706" stopOpacity="0.35" />
             <stop offset="100%" stopColor="#78350f" stopOpacity="0" />
           </radialGradient>
+
+          {/* Chandelier Room Light Glow */}
+          <radialGradient id="chandelierGlow" cx="50%" cy="30%" r="70%">
+            <stop offset="0%" stopColor="#fef3c7" stopOpacity="0.16" />
+            <stop offset="60%" stopColor="#f59e0b" stopOpacity="0.06" />
+            <stop offset="100%" stopColor="#07080c" stopOpacity="0" />
+          </radialGradient>
         </defs>
 
         {/* --- Background Room Walls & Crown Molding --- */}
         <rect width="1440" height="900" fill="url(#wallGradient)" />
+
+        {/* Chandelier Room Illumination when Power is ON */}
+        {state.roomPower === 'room_power_on' && (
+          <rect width="1440" height="900" fill="url(#chandelierGlow)" />
+        )}
 
         {/* Wainscoting Panels */}
         <line x1="0" y1="520" x2="1440" y2="520" stroke="#1f2638" strokeWidth="4" />

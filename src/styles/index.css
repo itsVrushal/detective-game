@@ -16,10 +16,12 @@
   --color-noir-border-uv: var(--noir-border-uv);
   --color-noir-border-crimson: var(--noir-border-crimson);
 
+  --color-noir-text-cream: var(--noir-text-cream);
   --color-noir-text-high: var(--noir-text-high);
   --color-noir-text-mid: var(--noir-text-mid);
   --color-noir-text-low: var(--noir-text-low);
   --color-noir-text-dim: var(--noir-text-dim);
+  --color-noir-cream-gold: var(--noir-cream-gold);
 
   --color-noir-amber: var(--light-filament);
   --color-noir-amber-dark: var(--light-filament-dark);
@@ -57,10 +59,6 @@ html, body {
 
 .font-body {
   font-family: var(--font-body);
-}
-
-.font-forensic {
-  font-family: var(--font-mono-forensic);
 }
 
 /* Crosshair for detective inspection */

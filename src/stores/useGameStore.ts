@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { CaseFile, Clue, SceneHotspot, Suspect, AccusationSubmission, VerdictReport, LightMode } from '../types/game';
+import { CaseFile, Clue, SceneHotspot, Suspect, AccusationSubmission, VerdictReport, LightMode, RoomPowerMode } from '../types/game';
 import { generateMysteryCase } from '../features/engine/mysteryGenerator';
 import { soundscape } from '../features/audio/soundscape';
 
@@ -8,6 +8,8 @@ export interface GameState {
   discoveredClueIds: string[];
   inspectedHotspotIds: string[];
   lightMode: LightMode;
+  roomPower: RoomPowerMode; // 'room_power_on' | 'blackout_flashlight'
+  powerCountdown: number; // Seconds until next power state switch
   filamentHealth: number; // 0 to 100
   isFlickering: boolean;
   isBlackout: boolean;
@@ -21,12 +23,13 @@ export interface GameState {
   caseCount: number;
 }
 
-// Simple lightweight store hook for clean reactivity without complex dependencies
 let globalState: GameState = {
   currentCase: generateMysteryCase(Date.now()),
   discoveredClueIds: [],
   inspectedHotspotIds: [],
   lightMode: 'tungsten',
+  roomPower: 'room_power_on', // Starts with chandelier/room lights ON
+  powerCountdown: 20,
   filamentHealth: 100,
   isFlickering: false,
   isBlackout: false,
@@ -52,6 +55,51 @@ export function setGameState(updater: Partial<GameState> | ((prev: GameState) =>
   notify();
 }
 
+// Global timer that cycles between Room Lights ON and Flashlight Blackout
+let powerIntervalId: number | null = null;
+
+function ensurePowerCycleTimer() {
+  if (powerIntervalId !== null) return;
+
+  powerIntervalId = window.setInterval(() => {
+    // Only cycle power when game is actively played (not on briefing modal)
+    if (globalState.activeModal === 'briefing') return;
+
+    setGameState(prev => {
+      const nextCount = prev.powerCountdown - 1;
+      if (nextCount > 0) {
+        return { powerCountdown: nextCount };
+      }
+
+      // Time to switch power state!
+      if (prev.roomPower === 'room_power_on') {
+        // Lights cut out! Breaker trips!
+        soundscape.playPowerTrip();
+        const blackoutDuration = 18 + Math.floor(Math.random() * 15); // 18-33s
+        return {
+          roomPower: 'blackout_flashlight',
+          powerCountdown: blackoutDuration,
+          isFlickering: true,
+        };
+      } else {
+        // Power restored! Generator hums back
+        soundscape.playPowerRestore();
+        const lightOnDuration = 15 + Math.floor(Math.random() * 15); // 15-30s
+        return {
+          roomPower: 'room_power_on',
+          powerCountdown: lightOnDuration,
+          isFlickering: false,
+          filamentHealth: 100,
+        };
+      }
+    });
+  }, 1000);
+}
+
+if (typeof window !== 'undefined') {
+  ensurePowerCycleTimer();
+}
+
 export function useGameStore(): [GameState, typeof gameActions] {
   const [, setTick] = useState(0);
 
@@ -67,6 +115,21 @@ export function useGameStore(): [GameState, typeof gameActions] {
 }
 
 export const gameActions = {
+  toggleRoomPower: () => {
+    const nextPower: RoomPowerMode =
+      globalState.roomPower === 'room_power_on' ? 'blackout_flashlight' : 'room_power_on';
+    if (nextPower === 'blackout_flashlight') {
+      soundscape.playPowerTrip();
+    } else {
+      soundscape.playPowerRestore();
+    }
+    setGameState({
+      roomPower: nextPower,
+      powerCountdown: nextPower === 'room_power_on' ? 20 : 25,
+      isFlickering: nextPower === 'blackout_flashlight',
+    });
+  },
+
   toggleLightMode: () => {
     const nextMode: LightMode = globalState.lightMode === 'tungsten' ? 'uv' : 'tungsten';
     soundscape.playSwitchClick(nextMode);
@@ -156,7 +219,7 @@ export const gameActions = {
 
     const confessionText = culpritCorrect && culpritSuspect?.breakdownQuote
       ? culpritSuspect.breakdownQuote
-      : `"You have no proof! My lawyers will have me out by sunrise, Detective!"`;
+      : `“You have no proof! My lawyers will have me out by sunrise, Detective!”`;
 
     soundscape.playVerdictChord(isGuilty);
 
@@ -187,6 +250,8 @@ export const gameActions = {
       discoveredClueIds: [],
       inspectedHotspotIds: [],
       lightMode: 'tungsten',
+      roomPower: 'room_power_on',
+      powerCountdown: 20,
       filamentHealth: 100,
       isFlickering: false,
       isBlackout: false,

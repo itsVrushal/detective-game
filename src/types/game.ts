@@ -2,6 +2,8 @@ export type SceneTheme = 'victorian_study' | 'jazz_club_office' | 'abandoned_obs
 
 export type LightMode = 'tungsten' | 'uv';
 
+export type RoomPowerMode = 'room_power_on' | 'blackout_flashlight';
+
 export type ClueType = 'physical' | 'forensic_uv' | 'document' | 'mechanism' | 'alibi_break';
 
 export interface SceneHotspot {

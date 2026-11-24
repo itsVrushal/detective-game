@@ -26,17 +26,19 @@ export const App: React.FC = () => {
       {/* 4. 60fps Flashlight Darkness & Particle Mask Layer */}
       <FlashlightCanvas />
 
-      {/* 5. Bottom Quick-Key Legend Bar */}
-      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 px-5 py-2 rounded-full bg-noir-surface-card/90 backdrop-blur-md border border-noir-border text-xs font-body text-noir-text-mid flex items-center gap-5 shadow-2xl pointer-events-none">
-        <span><strong className="text-noir-amber font-semibold">Cursor:</strong> Move Flashlight</span>
+      {/* 5. Bottom Quick-Key Legend Bar (Creamy High-Contrast Typography) */}
+      <div className="fixed bottom-4 left-1/2 -translate-x-1/2 z-40 px-5 py-2 rounded-full bg-noir-surface-card border border-noir-border text-xs font-body text-noir-text-mid flex items-center gap-4 shadow-xl pointer-events-none">
+        <span><strong className="text-noir-amber font-semibold">Cursor:</strong> Move Light</span>
         <span className="text-noir-border">|</span>
-        <span><kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-uv font-mono text-xs">F</kbd> Forensic UV</span>
+        <span><kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-cream-gold font-mono text-xs font-bold">L</kbd> Room Lights</span>
         <span className="text-noir-border">|</span>
-        <span><kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-amber font-mono text-xs">SPACE</kbd> Tap Filament</span>
+        <span><kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-uv font-mono text-xs font-bold">F</kbd> Forensic UV</span>
         <span className="text-noir-border">|</span>
-        <span><kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-text-high font-mono text-xs">N</kbd> Dossier</span>
+        <span><kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-amber font-mono text-xs font-bold">SPACE</kbd> Tap Filament</span>
         <span className="text-noir-border">|</span>
-        <span><kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-crimson font-mono text-xs">A</kbd> Accuse</span>
+        <span><kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-text-cream font-mono text-xs font-bold">N</kbd> Dossier</span>
+        <span className="text-noir-border">|</span>
+        <span><kbd className="px-1.5 py-0.5 rounded bg-noir-surface border border-noir-border text-noir-crimson font-mono text-xs font-bold">A</kbd> Accuse</span>
       </div>
 
       {/* 6. Modals and Inspection Overlays */}

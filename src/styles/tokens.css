@@ -1,48 +1,51 @@
 /* Hallmark · v2.0.0 · tokens.css
    Genre: atmospheric
    Theme: noir-investigation
-   Anchor: #d97706 (amber incandescent) / #6366f1 (forensic UV)
+   Anchor: #fbbf24 (amber gold) / #818cf8 (forensic UV)
+   Palette: deep dark backgrounds with crisp warm creamy typography
 */
 
 :root {
-  /* Surface and Background Tones */
-  --noir-bg: #07080c;
-  --noir-bg-subtle: #0d0f17;
-  --noir-surface: #121622;
-  --noir-surface-elevated: #181e2e;
-  --noir-surface-card: #141926;
-  --noir-surface-dialogue: #111520;
-  --noir-surface-danger: #231215;
+  /* Surface and Background Tones - Deep Inky Dark */
+  --noir-bg: #06080d;
+  --noir-bg-subtle: #0b0e15;
+  --noir-surface: #0d1017;
+  --noir-surface-elevated: #181d2a;
+  --noir-surface-card: #121622;
+  --noir-surface-dialogue: #10141f;
+  --noir-surface-danger: #220e12;
 
   /* Borders & Separation */
-  --noir-border: #222b3e;
-  --noir-border-subtle: #19202f;
-  --noir-border-amber: rgba(217, 119, 6, 0.45);
-  --noir-border-uv: rgba(99, 102, 241, 0.45);
-  --noir-border-crimson: rgba(220, 38, 38, 0.5);
+  --noir-border: #262f42;
+  --noir-border-subtle: #1c2333;
+  --noir-border-amber: rgba(251, 191, 36, 0.55);
+  --noir-border-uv: rgba(129, 140, 248, 0.5);
+  --noir-border-crimson: rgba(239, 68, 68, 0.5);
 
-  /* Typography Text Colors (High contrast, zero raw hex in markup) */
-  --noir-text-high: #f6f8fc;
-  --noir-text-mid: #cbd5e1;
-  --noir-text-low: #8b99ad;
-  --noir-text-dim: #475569;
+  /* Creamy Typography Palette - Ultra Legible High Contrast */
+  --noir-text-cream: #fefbf3;
+  --noir-text-high: #fbf7ee;
+  --noir-text-mid: #f3ede2;
+  --noir-text-low: #d8cfbe;
+  --noir-text-dim: #b2a694;
+  --noir-cream-gold: #fef08a;
 
   /* Atmospheric Light Tokens */
-  --light-filament: #f59e0b;
-  --light-filament-glow: rgba(245, 158, 11, 0.25);
-  --light-filament-dark: #b45309;
+  --light-filament: #fbbf24;
+  --light-filament-glow: rgba(251, 191, 36, 0.28);
+  --light-filament-dark: #d97706;
   
   --light-uv: #818cf8;
-  --light-uv-glow: rgba(129, 140, 248, 0.35);
-  --light-uv-dark: #4338ca;
+  --light-uv-glow: rgba(129, 140, 248, 0.38);
+  --light-uv-dark: #4f46e5;
 
-  --evidence-blood: #dc2626;
-  --evidence-blood-dark: #7f1d1d;
-  --evidence-amber: #d97706;
+  --evidence-blood: #ef4444;
+  --evidence-blood-dark: #991b1b;
+  --evidence-amber: #f59e0b;
 
-  --paper-parchment: #f6f3eb;
-  --paper-ink: #141721;
-  --noir-vignette: rgba(5, 6, 9, 0.95);
+  --paper-parchment: #fcf8ee;
+  --paper-ink: #10131d;
+  --noir-vignette: rgba(4, 5, 8, 0.96);
 
   /* Non-AI Typography Families - Exactly 3 families */
   --font-serif-noir: 'DM Serif Display', Georgia, serif;

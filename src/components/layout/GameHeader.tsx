@@ -8,60 +8,81 @@ import {
   FileText,
   Gavel,
   RotateCcw,
+  Power,
 } from 'lucide-react';
 
 export const GameHeader: React.FC = () => {
   const [state, actions] = useGameStore();
-  const { currentCase, lightMode, filamentHealth, soundMuted, discoveredClueIds } = state;
+  const { currentCase, lightMode, roomPower, powerCountdown, filamentHealth, soundMuted, discoveredClueIds } = state;
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-3.5 bg-noir-surface/90 backdrop-blur-md border-b border-noir-border text-noir-text-high select-none">
+    <header className="fixed top-0 left-0 right-0 z-40 flex items-center justify-between px-6 py-3.5 bg-noir-surface/95 border-b border-noir-border text-noir-text-cream select-none shadow-md">
       {/* Left: Case Info */}
       <div className="flex items-center gap-4">
         <div className="flex items-center gap-2.5">
           <span className="w-2.5 h-2.5 rounded-full bg-noir-amber animate-pulse" />
-          <h1 className="font-noir font-bold text-lg text-noir-text-high tracking-wide">
+          <h1 className="font-noir font-bold text-lg text-noir-text-cream tracking-wide">
             LUMEN: Detective Noir
           </h1>
         </div>
 
         <div className="hidden md:flex items-center gap-3 text-sm font-body text-noir-text-low border-l border-noir-border pl-4">
-          <span className="text-noir-amber font-semibold">{currentCase.caseNumber}</span>
+          <span className="text-noir-amber font-bold">{currentCase.caseNumber}</span>
           <span className="text-noir-border">|</span>
-          <span className="truncate max-w-xs">{currentCase.sceneName}</span>
+          <span className="truncate max-w-xs text-noir-text-mid">{currentCase.sceneName}</span>
         </div>
       </div>
 
-      {/* Center: Flashlight Health & Controls */}
+      {/* Center: Dynamic Room Power & Flashlight Controls */}
       <div className="flex items-center gap-3">
-        {/* Filament / Light Health Bar */}
-        <div className="hidden sm:flex items-center gap-2.5 bg-noir-surface-card border border-noir-border-subtle px-3.5 py-1.5 rounded-md text-sm font-body">
-          <Lightbulb
-            className={`w-4 h-4 ${
-              lightMode === 'uv' ? 'text-noir-uv' : 'text-noir-amber'
-            }`}
-          />
-          <span className="text-xs text-noir-text-low font-semibold">Filament Health</span>
-          <div className="w-16 h-2 bg-noir-surface rounded-full overflow-hidden border border-noir-border-subtle">
-            <div
-              className={`h-full transition-colors duration-200 ${
-                filamentHealth > 50
-                  ? 'bg-noir-amber'
-                  : filamentHealth > 25
-                  ? 'bg-amber-600'
-                  : 'bg-noir-crimson animate-pulse'
+        {/* Dynamic Estate Power State Badge & Breaker Switch [L] */}
+        <button
+          onClick={actions.toggleRoomPower}
+          title="Toggle Estate Power / Flashlight Blackout (Key: L)"
+          className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-body transition-colors border cursor-pointer ${
+            roomPower === 'room_power_on'
+              ? 'bg-noir-surface-card border-noir-amber text-noir-amber'
+              : 'bg-noir-surface-danger border-noir-crimson text-noir-crimson animate-pulse'
+          }`}
+        >
+          <Power className="w-3.5 h-3.5" />
+          <span className="font-semibold">
+            {roomPower === 'room_power_on'
+              ? `Room Lights ON (${powerCountdown}s) [L]`
+              : `Storm Blackout: Flashlight (${powerCountdown}s) [L]`}
+          </span>
+        </button>
+
+        {/* Filament / Light Health Bar (Active during blackout) */}
+        {roomPower === 'blackout_flashlight' && (
+          <div className="hidden sm:flex items-center gap-2.5 bg-noir-surface-card border border-noir-border-subtle px-3.5 py-1.5 rounded-md text-sm font-body animate-in fade-in">
+            <Lightbulb
+              className={`w-4 h-4 ${
+                lightMode === 'uv' ? 'text-noir-uv' : 'text-noir-amber'
               }`}
-              style={{ width: `${filamentHealth}%` }}
             />
+            <span className="text-xs text-noir-text-low font-semibold">Filament</span>
+            <div className="w-16 h-2 bg-noir-surface rounded-full overflow-hidden border border-noir-border-subtle">
+              <div
+                className={`h-full transition-colors duration-200 ${
+                  filamentHealth > 50
+                    ? 'bg-noir-amber'
+                    : filamentHealth > 25
+                    ? 'bg-amber-600'
+                    : 'bg-noir-crimson animate-pulse'
+                }`}
+                style={{ width: `${filamentHealth}%` }}
+              />
+            </div>
+            <button
+              onClick={actions.tapFilament}
+              title="Press SPACE or click to tap filament"
+              className="text-xs text-noir-amber hover:text-noir-amber-dark font-semibold underline cursor-pointer"
+            >
+              [SPACE] Tap
+            </button>
           </div>
-          <button
-            onClick={actions.tapFilament}
-            title="Press SPACE or click to tap filament"
-            className="text-xs text-noir-amber hover:text-noir-amber-dark font-semibold underline cursor-pointer"
-          >
-            [SPACE] Tap
-          </button>
-        </div>
+        )}
 
         {/* UV Mode Toggle Button */}
         <button
@@ -70,11 +91,11 @@ export const GameHeader: React.FC = () => {
           className={`flex items-center gap-2 px-3.5 py-1.5 rounded text-xs font-body transition-colors border cursor-pointer ${
             lightMode === 'uv'
               ? 'bg-noir-surface-elevated border-noir-uv text-noir-uv shadow-md'
-              : 'bg-noir-surface-card border-noir-border-subtle text-noir-text-low hover:text-noir-text-high hover:bg-noir-surface-elevated'
+              : 'bg-noir-surface-card border-noir-border text-noir-text-mid hover:text-noir-text-cream hover:bg-noir-surface-elevated'
           }`}
         >
           <Zap className={`w-3.5 h-3.5 ${lightMode === 'uv' ? 'text-noir-uv' : 'text-noir-text-low'}`} />
-          <span>{lightMode === 'uv' ? 'Forensic UV Active [F]' : 'Tungsten Light [F]'}</span>
+          <span>{lightMode === 'uv' ? 'UV Blacklight [F]' : 'Tungsten [F]'}</span>
         </button>
       </div>
 
@@ -86,8 +107,8 @@ export const GameHeader: React.FC = () => {
           className="flex items-center gap-2 px-3.5 py-1.5 rounded bg-noir-surface-card hover:bg-noir-surface-elevated border border-noir-border text-xs font-body text-noir-text-mid transition-colors cursor-pointer"
         >
           <FileText className="w-4 h-4 text-noir-amber" />
-          <span>Dossier [N]</span>
-          <span className="px-1.5 py-0.5 rounded bg-noir-surface-elevated text-xs text-noir-amber font-bold">
+          <span className="text-noir-text-cream font-semibold">Dossier [N]</span>
+          <span className="px-2 py-0.5 rounded bg-noir-surface-elevated text-xs text-noir-amber font-bold">
             {discoveredClueIds.length}/{currentCase.clues.length}
           </span>
         </button>
@@ -105,9 +126,9 @@ export const GameHeader: React.FC = () => {
         <button
           onClick={actions.toggleSound}
           title={soundMuted ? 'Unmute Noir Audio' : 'Mute Noir Audio'}
-          className="p-2 rounded bg-noir-surface-card hover:bg-noir-surface-elevated border border-noir-border text-noir-text-low hover:text-noir-text-high transition-colors cursor-pointer"
+          className="p-2 rounded bg-noir-surface-card hover:bg-noir-surface-elevated border border-noir-border text-noir-text-low hover:text-noir-text-cream transition-colors cursor-pointer"
         >
-          {soundMuted ? <VolumeX className="w-4 h-4 text-noir-crimson" /> : <Volume2 className="w-4 h-4 text-noir-text-high" />}
+          {soundMuted ? <VolumeX className="w-4 h-4 text-noir-crimson" /> : <Volume2 className="w-4 h-4 text-noir-text-cream" />}
         </button>
 
         {/* New Random Case */}
